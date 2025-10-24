@@ -1,0 +1,37 @@
+﻿<Window x:Class="ProyectoWPF.Productos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Productos" Height="900" Width="1200" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Background="#FFBBBF70">
+            <Border.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <TextBlock Text="Lista de " 
+                Foreground="#FF313131" FontWeight="Bold" FontSize="38"
+                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Gabriola" Height="50" Width="258" Margin="198,0,0,0"/>
+        </Border>
+        
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Carnes}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,8,0,8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="200"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" Width="100"/>
+                <DataGridTextColumn Header="Disponibilidad" Binding="{Binding Disponibilidad}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="90" Margin="4" Click="BtnCerrar_Click">Cerrar</Button>
+        </StackPanel>
+    </Grid>
+</Window>

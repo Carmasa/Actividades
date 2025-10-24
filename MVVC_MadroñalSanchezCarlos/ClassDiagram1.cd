@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ProyectoWPF.Data.AppDbContext">
+    <Position X="8.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\AppDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Models.Carnes">
+    <Position X="5.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAgAARAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Carnes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Models.Especialidades">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAQAAAgAARAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Especialidades.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Models.Vegano">
+    <Position X="8" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAgAARAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Pescados.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Models.Postres">
+    <Position X="2.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAgAARAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Postres.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Models.Veganos">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAgAARAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Veganos.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Models.Vinos">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAgAARAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\Vinos.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.Services.CarnesService">
+    <Position X="10.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Services\CarnesService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.ViewModels.MainViewModel">
+    <Position X="10.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACgEAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.App">
+    <Position X="10.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectoWPF.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" Collapsed="true" />
+  </Class>
+  <Class Name="ProyectoWPF.Productos" BaseTypeListCollapsed="true">
+    <Position X="5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAgAA=</HashCode>
+      <FileName>Productos.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="1.3" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

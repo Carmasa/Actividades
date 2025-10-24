@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="carnes.png" />
+    <None Remove="especialidades.png" />
+    <None Remove="Menu.jpg" />
+    <None Remove="pescado.png" />
+    <None Remove="postres.png" />
+    <None Remove="redes.png" />
+    <None Remove="vegano.png" />
+    <None Remove="vinos.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="carnes.png" />
+    <Resource Include="especialidades.png" />
+    <Resource Include="Menu.jpg" />
+    <Resource Include="pescado.png" />
+    <Resource Include="postres.png" />
+    <Resource Include="redes.png" />
+    <Resource Include="vegano.png" />
+    <Resource Include="vinos.png" />
+  </ItemGroup>
+
+</Project>
