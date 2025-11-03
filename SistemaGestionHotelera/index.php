@@ -6,9 +6,23 @@ require_once __DIR__ . '/Reserva.php';
 require_once __DIR__ . '/Mantenimiento.php';
 require_once __DIR__ . '/Limpieza.php';
 
+session_start();
+
 $mensaje = '';
 $mensaje_huesped = '';
-$tab = $_GET['tab'] ?? 'registro-huesped';
+if (isset($_POST['theme'])) {
+    $theme = $_POST['theme'];
+    setcookie('theme_preference', $theme, time() + (86400 * 30), "/"); // 30 días
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
+// Modificar la pestaana por defecto según el rol
+if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin') {
+    $tab = $_GET['tab'] ?? 'registro-huesped';
+} else {
+    $tab = $_GET['tab'] ?? 'ver-reservas';
+}
 
 // Mensajes formularios
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -131,23 +145,53 @@ $habitaciones = $habitacionService->listarTodas();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión Hotelera</title>
     <link rel="stylesheet" href="styles.css">
+    <?php if (isset($_COOKIE['theme_preference']) && $_COOKIE['theme_preference'] === 'dark'): ?>
+    <link rel="stylesheet" href="dark-theme.css">
+    <?php endif; ?>
 </head>
 <body>
     <header class="main-header">
         <img src="img/encabezado.jpg" alt="Encabezado" class="header-img">
         <h1 class="header-title">Sistema de Gestión Hotelera</h1>
     </header>
+
+    <div class="theme-selector">
+        <form action="set_theme.php" method="POST">
+            <label>Tema:</label>
+            <select name="theme" onchange="this.form.submit()">
+                <option value="light" <?php echo (!isset($_COOKIE['theme_preference']) || $_COOKIE['theme_preference'] === 'light') ? 'selected' : ''; ?>>Claro</option>
+                <option value="dark" <?php echo (isset($_COOKIE['theme_preference']) && $_COOKIE['theme_preference'] === 'dark') ? 'selected' : ''; ?>>Oscuro</option>
+            </select>
+        </form>
+    </div>
+
+    <?php if(isset($_SESSION['usuario'])): ?>
+    <div class="welcome-section">
+        <p class="welcome-message">
+            Bienvenido, <strong><?php echo htmlspecialchars($_SESSION['usuario']); ?></strong>
+            <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+            <br><small>(Administrador)</small>
+            <?php endif; ?>
+        </p>
+        <a href="Login.php?logout=1" class="logout-btn">Cerrar sesión</a>
+    </div>
+    <?php endif; ?>
+
     <div class="container">
         
         <!-- Navegacion -->
         <div class="nav-tabs">
-            <a href="index.php?tab=registro-huesped" class="<?= $tab === 'registro-huesped' ? 'active' : '' ?>">Registro de Huésped</a>
-            <a href="index.php?tab=reserva-habitacion" class="<?= $tab === 'reserva-habitacion' ? 'active' : '' ?>">Reservar Habitación</a>
-            <a href="index.php?tab=mantenimiento" class="<?= $tab === 'mantenimiento' ? 'active' : '' ?>">Mantenimiento</a>
-            <a href="index.php?tab=limpieza" class="<?= $tab === 'limpieza' ? 'active' : '' ?>">Estado de Limpieza</a>
-            <a href="index.php?tab=ver-reservas" class="<?= $tab === 'ver-reservas' ? 'active' : '' ?>">Ver Reservas</a>
-            <a href="index.php?tab=ver-habitaciones" class="<?= $tab === 'ver-habitaciones' ? 'active' : '' ?>">Ver Habitaciones</a>
-        </div>
+<?php if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin'): ?>
+        <a href="index.php?tab=registro-huesped" class="<?= $tab === 'registro-huesped' ? 'active' : '' ?>">Registro de Huésped</a>
+        <a href="index.php?tab=reserva-habitacion" class="<?= $tab === 'reserva-habitacion' ? 'active' : '' ?>">Reservar Habitación</a>
+        <a href="index.php?tab=mantenimiento" class="<?= $tab === 'mantenimiento' ? 'active' : '' ?>">Mantenimiento</a>
+        <a href="index.php?tab=limpieza" class="<?= $tab === 'limpieza' ? 'active' : '' ?>">Estado de Limpieza</a>
+        <a href="index.php?tab=ver-reservas" class="<?= $tab === 'ver-reservas' ? 'active' : '' ?>">Ver Reservas</a>
+        <a href="index.php?tab=ver-habitaciones" class="<?= $tab === 'ver-habitaciones' ? 'active' : '' ?>">Ver Habitaciones</a>
+<?php else: ?>
+        <a href="index.php?tab=ver-reservas" class="<?= $tab === 'ver-reservas' ? 'active' : '' ?>">Ver Mis Reservas</a>
+<?php endif; ?>
+    </div>
 
         <!-- Mensajes de respuesta -->
         <div id="message"></div>
@@ -280,7 +324,24 @@ $habitaciones = $habitacionService->listarTodas();
     <h2>Reservas Actuales</h2>
     <?php
     $reservaService = new Reserva();
-    $reservas = $reservaService->listarTodas();
+    if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin') {
+        $reservas = $reservaService->listarTodas();
+    } else {
+        // Mostrar solo reservas del correo vinculado al usuario
+        $correo = $_SESSION['email'] ?? null;
+        $reservas = [];
+        if ($correo) {
+            $pdo = getPDO();
+            $stmt = $pdo->prepare("SELECT r.*, h.numero_habitacion, hu.nombre as nombre_huesped 
+                                   FROM reservas r 
+                                   JOIN habitaciones h ON r.id_habitacion = h.id_habitacion 
+                                   JOIN huespedes hu ON r.id_huesped = hu.id_huesped
+                                   WHERE hu.correo = :correo
+                                   ORDER BY r.fecha_llegada DESC");
+            $stmt->execute([':correo' => $correo]);
+            $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
     if ($reservas):
     ?>
         <table>
@@ -302,7 +363,7 @@ $habitaciones = $habitacionService->listarTodas();
         <td><?= $res['estado'] ?></td>
         <td><?= number_format($res['precio_total'], 2) ?> €</td>
         <td>
-            <?php if ($res['estado'] === 'Reservada'): ?>
+            <?php if ($res['estado'] === 'Reservada' && isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin'): ?>
                 <form action="index.php?tab=ver-reservas" method="POST" style="display:inline;">
                     <input type="hidden" name="action" value="confirmar_reserva">
                     <input type="hidden" name="id_reserva" value="<?= $res['id_reserva'] ?>">

@@ -36,6 +36,13 @@ INSERT INTO limpieza (id_habitacion, estado_limpieza) VALUES
 (15, 'Limpia'),
 (16, 'Limpia');
 
+
+INSERT INTO huespedes (id_huesped, nombre, correo, dni, pass) VALUES
+(1, 'admin', 'admin@hotel.com','12345678M', 'admin'),
+(2, 'carlos', 'carlos@gmail.com','12345678','1234'),
+(3, 'pepe', 'pepe@gmail.com','12345678C', '4321');
+
+
 -- Insertar estado de mantenimiento para cada habitación
 INSERT INTO mantenimiento (id_habitacion, tarea_mantenimiento, fecha_inicio, fecha_fin, descripcion_tarea, estado) VALUES
 (1, 'Ninguna', '2025-01-01', '2025-01-01', 'Sin mantenimiento programado', 'No requerido'),

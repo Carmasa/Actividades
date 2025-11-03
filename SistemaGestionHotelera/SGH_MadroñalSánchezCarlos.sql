@@ -14,7 +14,8 @@ CREATE TABLE huespedes (
     id_huesped INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
     correo VARCHAR(100) UNIQUE NOT NULL,
-    dni VARCHAR(9) UNIQUE NOT NULL
+    dni VARCHAR(9) UNIQUE NOT NULL,
+    pass VARCHAR(20)
 );
 
 CREATE TABLE reservas (

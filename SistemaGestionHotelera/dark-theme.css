@@ -1,0 +1,71 @@
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.main-header {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.nav-tabs {
+    background-color: #2d2d2d;
+}
+
+.nav-tabs a {
+    background-color: #404040;
+    color: #ffffff;
+}
+
+.nav-tabs a.active {
+    background-color: #505050;
+}
+
+.card, .card-login {
+    background: rgba(45, 45, 45, 0.95);
+    color: #ffffff;
+}
+
+.welcome-section {
+    background: rgba(45, 45, 45, 0.9);
+    color: #ffffff;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+    background-color: #333;
+    color: #ffffff;
+    border: 1px solid #404040;
+}
+
+table {
+    background-color: #2d2d2d;
+}
+
+tr:nth-child(even) {
+    background-color: #333;
+}
+
+.main-footer {
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+}
+
+/* Estilos para el selector de tema */
+.theme-selector {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(45, 45, 45, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.theme-selector select {
+    padding: 5px;
+    border-radius: 4px;
+}

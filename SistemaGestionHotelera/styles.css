@@ -200,3 +200,118 @@ tr:nth-child(even) {
 .main-footer a:hover {
     text-decoration: none;
 }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Styles para el login (central y coherente con index) */
+.container-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 260px); /* deja espacio para cabecera y footer */
+    padding: 40px 20px;
+}
+
+.card-login {
+    background: rgba(255,255,255,0.95);
+    padding: 28px;
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    width: 360px;
+}
+
+/* reutiliza .card-login para diseño; etiquetas de formulario */
+.card-login h3 { margin-top:0; text-align:center; font-size:1.25rem; }
+.card-login label { display:block; margin-top:10px; font-size:14px; color:#333; }
+.card-login input { width:100%; padding:10px; margin-top:6px; box-sizing:border-box; border:1px solid #ddd; border-radius:4px; }
+.card-login button { margin-top:18px; width:100%; padding:10px; background:#c9571a; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.card-login button:hover { background:#eb7e1d; }
+
+.error {
+    color: #7a0a0a;
+    background:#f8d7da;
+    padding:8px;
+    border-radius:4px;
+    text-align:center;
+    margin-bottom:8px;
+}
+
+.welcome-section {
+    position: absolute;
+    top: 190px;
+    right: 20px;
+    text-align: right;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.welcome-message {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.logout-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #c9571a;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #eb7e1d;
+}
+
+.register-btn, .back-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+    background-color: #45a049;
+}
+
+.back-btn {
+    background-color: #666;
+}
+
+.back-btn:hover {
+    background-color: #555;
+}
+
+.card-login input {
+    margin-bottom: 15px;
+}
+
+.theme-selector {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.theme-selector select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
