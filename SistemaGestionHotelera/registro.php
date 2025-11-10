@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <label for="dni">DNI</label>
                 <input type="text" id="dni" name="dni" pattern="[0-9]{8}[A-Za-z]{1}" 
-                       title="Formato DNI: 8 números y 1 letra" required>
+                title="Formato DNI: 8 números y 1 letra" required>
                 
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required>

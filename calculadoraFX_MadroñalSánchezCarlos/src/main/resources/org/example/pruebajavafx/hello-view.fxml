@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="406.0" prefWidth="352.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.pruebajavafx.calculadoraController">
+   <children>
+      <Pane layoutY="7.0" prefHeight="406.0" prefWidth="352.0">
+         <children>
+             <Label fx:id="welcomeText" layoutX="49.0" layoutY="136.0" prefHeight="37.0" prefWidth="269.0" style="-fx-background-color: white; -fx-font-size: 24px; -fx-alignment: center-right; -fx-border-color: #ccc; -fx-border-radius: 5;" text="0" />
+            <Button layoutX="206.0" layoutY="313.0" onAction="#boton0Click" prefHeight="52.0" prefWidth="34.0" style="-fx-background-color: #cce5ff;" text="0" />
+            <Button layoutX="244.0" layoutY="192.0" onAction="#boton0Click" prefHeight="52.0" prefWidth="34.0" style="-fx-background-color: #ffb3b3;" text="*" />
+             <Button layoutX="48.0" layoutY="192.0" onAction="#boton1Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="1" />
+             <Button layoutX="103.0" layoutY="192.0" onAction="#boton2Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="2" />
+             <Button layoutX="155.0" layoutY="193.0" onAction="#boton3Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="3" />
+             <Button layoutX="48.0" layoutY="250.0" onAction="#boton4Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="4" />
+             <Button layoutX="103.0" layoutY="250.0" onAction="#boton5Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="5" />
+             <Button layoutX="155.0" layoutY="250.0" onAction="#boton6Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="6" />
+             <Button layoutX="48.0" layoutY="312.0" onAction="#boton7Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="7" />
+             <Button layoutX="103.0" layoutY="313.0" onAction="#boton8Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="8" />
+             <Button layoutX="155.0" layoutY="313.0" onAction="#boton9Click" prefHeight="52.0" prefWidth="43.0" style="-fx-background-color: #cce5ff;" text="9" />
+             <Button layoutX="206.0" layoutY="255.0" onAction="#botonMasClick" prefHeight="52.0" prefWidth="34.0" style="-fx-background-color: #ffb3b3;" text="+" />
+             <Button layoutX="244.0" layoutY="255.0" onAction="#botonMenosClick" prefHeight="52.0" prefWidth="34.0" style="-fx-background-color: #ffb3b3;" text="-" />
+             <Button layoutX="206.0" layoutY="192.0" onAction="#boton1Click" prefHeight="52.0" prefWidth="34.0" style="-fx-background-color: #ffb3b3;" text="/" />
+             <Button layoutX="243.0" layoutY="313.0" onAction="#botonClearClick" prefHeight="52.0" prefWidth="34.0" style="-fx-background-color: #ffb3b3;" text="C" />
+             <Button layoutX="284.0" layoutY="193.0" onAction="#botonResultadoClick" prefHeight="172.0" prefWidth="43.0" style="-fx-background-color: #ffb3b3;" text="=" />
+
+         </children>
+      </Pane>
+
+   </children>
+</Pane>
