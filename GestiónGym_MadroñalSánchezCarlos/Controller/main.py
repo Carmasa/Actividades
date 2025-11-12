@@ -1,16 +1,7 @@
-# main.py
-
-from tkinter import Tk
-from View.login_frame import InterfaceTK
-from Model.conection import inicializar_db, insertar_datos_iniciales
-from Model.Admin import ADMINS_INICIALES
-from Model.Aparato import EQUIPAMIENTO_GIMNASIO
-
+from Controller.init_db import inicializar_datos
+from View.app import GymApp
 
 if __name__ == "__main__":
-    inicializar_db()
-    insertar_datos_iniciales()
-
-    root = Tk()
-    app = InterfaceTK(root)
-    root.mainloop()
+    inicializar_datos()
+    app = GymApp()
+    app.mainloop()

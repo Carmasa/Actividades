@@ -10,4 +10,6 @@ ADMINS_INICIALES = [
     Admin("Ana López", "ana@gym.com", "600111222", "ana123"),
     Admin("Carlos Ruiz", "carlos@gym.com", "600333444", "carlos123"),
     Admin("Lucía Mendoza", "lucia@gym.com", "600555666", "lucia123"),
+    Admin("admin", "1", "600555666", "1"),
+
 ]
