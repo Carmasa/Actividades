@@ -3,13 +3,15 @@ package org.example.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Animal implements Serializable {
     public enum EstadoAnimal {
         RECIEN_ABANDONADO,
         TIEMPO_EN_REFUGIO,
-        PROXIMAMENTE_EN_ACOGIDA
+        CARNIVORO, PROXIMAMENTE_EN_ACOGIDA
     }
 
     @Id
@@ -27,6 +29,19 @@ public class Animal implements Serializable {
     @Enumerated(EnumType.STRING)
     private EstadoAnimal estado;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "persona_id", nullable = false)
+    private Persona persona;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "animal_clasificacion", // Nombre de la tabla intermedia (de unión)
+            joinColumns = @JoinColumn(name = "animal_id"), // Columna FK para esta entidad
+            inverseJoinColumns = @JoinColumn(name = "clasificacion_id") // Columna FK para la entidad inversa
+    )
+    private Set<Clasificacion> clasificaciones = new HashSet<>();
+
+
     // constructores
     public Animal(){};
 
@@ -37,8 +52,6 @@ public class Animal implements Serializable {
         this.edad = edad;
         this.descripcion = descripcion;
         this.estado = estado;
-
-
     }
 
     public Integer getId() {
@@ -87,4 +100,21 @@ public class Animal implements Serializable {
     public void setEstado(EstadoAnimal estado) {
         this.estado = estado;
     }
+
+    public Persona getPersona() {
+        return persona;
+    }
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Set<Clasificacion> getClasificaciones() {
+        return clasificaciones;
+    }
+
+    public void setClasificaciones(Set<Clasificacion> clasificaciones) {
+        this.clasificaciones = clasificaciones;
+    }
+
+
 }

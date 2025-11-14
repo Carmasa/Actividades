@@ -4,13 +4,18 @@ import org.example.Util.HibernateUtil;
 import org.example.DAO.AnimalDAO;
 import org.example.DAO.AnimalDAOImpl;
 import org.example.entities.Animal;
+import org.example.entities.Clasificacion;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Scanner;
 
+import static org.example.entities.Clasificacion.CalificacionAlimentacion.*;
+import org.example.entities.Clasificacion.CalificacionTipo.*;
 import static org.example.entities.Animal.EstadoAnimal.*;
+import static org.example.entities.Clasificacion.CalificacionAlimentacion.CARNIVORO;
+
 
 public class Main {
 
@@ -42,12 +47,35 @@ public class Main {
                     sc.nextLine();
                     System.out.println("Introduzca una descripción del animal:");
                     String descripcion = sc.nextLine();
+                    System.out.println("Seleccione la calificación del animal:");
+                    System.out.println("1. CARNIVORO");
+                    System.out.println("2. HERVIVORO");
+                    System.out.println("3. OVNIVORO");
+                    int calificacionOpcion = sc.nextInt();
+                    sc.nextLine();
+
+                    Clasificacion.CalificacionAlimentacion eleccion;
+                    switch (calificacionOpcion) {
+                        case 1:
+                            eleccion = CARNIVORO;
+                            break;
+                        case 2:
+                            eleccion = HERVIVORO;
+                            break;
+                        case 3:
+                            eleccion = OVNIVORO;
+                            break;
+                        default:
+                            System.out.println("Opción de calificación no válida. Se asignará CARNIVORO por defecto.");
+                            eleccion = CARNIVORO;
+                    }
 
                     Animal animal = new Animal(nombre, especie, null, edad, descripcion,RECIEN_ABANDONADO);
 
                     session.beginTransaction();
                     session.persist(animal);
                     session.getTransaction().commit();
+
                     System.out.println("Animal registrado con éxito.");
 
                     break;

@@ -14,5 +14,8 @@
         <property name="hbm2ddl.auto">update</property>
         <!-- Entitites -->
         <mapping class="org.example.entities.Animal"/>
+        <mapping class="org.example.entities.Persona"/>
+        <mapping class="org.example.entities.Clasificacion"/>
+
     </session-factory>
 </hibernate-configuration>
