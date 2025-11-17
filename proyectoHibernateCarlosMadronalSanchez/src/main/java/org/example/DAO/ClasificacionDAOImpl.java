@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 
-public class ClasificacionDAOImpl {
+public class ClasificacionDAOImpl implements ClasificacionDAO{
 
     public List<Clasificacion> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -37,6 +37,18 @@ public class ClasificacionDAOImpl {
             session.merge(clasificacion);
             tx.commit();
             return clasificacion;
+        }
+    }
+    @Override
+    public Clasificacion findByAlimentacionAndTipo(
+            Clasificacion.CalificacionAlimentacion alimentacion,
+            Clasificacion.CalificacionTipo tipo) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Clasificacion WHERE calificacionAlimentacion = :alim AND calificaciontipo = :tipo",
+                            Clasificacion.class)
+                    .setParameter("alim", alimentacion)
+                    .setParameter("tipo", tipo)
+                    .uniqueResult();
         }
     }
 
