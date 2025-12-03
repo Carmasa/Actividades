@@ -22,7 +22,7 @@ class AparatosFrame(ctk.CTkFrame):
         header.pack(fill="x", padx=20, pady=(20, 0))
 
         try:
-            logo_path = "../Resources/logo.png"
+            logo_path = "Resources/logo.png"
             logo_image = Image.open(logo_path)
             logo_image = logo_image.resize((60, 60), Image.LANCZOS)
             self.logo = ctk.CTkImage(light_image=logo_image, dark_image=logo_image, size=(60, 60))
@@ -122,7 +122,7 @@ class AparatosFrame(ctk.CTkFrame):
                 tipo_carpeta = "Cardio"
 
             img_nombre = AparatosFrame.nombre_a_archivo(nombre)
-            img_path = f"../Resources/aparatos/{tipo_carpeta}/{img_nombre}"
+            img_path = f"Resources/aparatos/{tipo_carpeta}/{img_nombre}"
             try:
                 img = Image.open(img_path)
                 img = img.resize((160, 160), Image.LANCZOS)
@@ -149,7 +149,7 @@ class AparatosFrame(ctk.CTkFrame):
 
     def _crear_boton_volver(self):
         try:
-            img_path = "../Resources/volver.png"
+            img_path = "Resources/volver.png"
             img = Image.open(img_path)
             img = img.resize((48, 48), Image.LANCZOS)
             icono_volver = ctk.CTkImage(light_image=img, dark_image=img, size=(48, 48))

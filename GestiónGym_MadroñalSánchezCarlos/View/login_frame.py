@@ -13,7 +13,7 @@ class LoginFrame(ctk.CTkFrame):
 
         # Cargar logo
         try:
-            logo_path = "../Resources/logo.png"
+            logo_path = "Resources/logo.png"
             logo_image = Image.open(logo_path)
             logo_image = logo_image.resize((300, 300), Image.LANCZOS)
             self.logo = ctk.CTkImage(light_image=logo_image, dark_image=logo_image, size=(300, 300))

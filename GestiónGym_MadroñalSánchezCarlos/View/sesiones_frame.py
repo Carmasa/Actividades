@@ -29,7 +29,7 @@ class SesionesFrame(ctk.CTkFrame):
 
         try:
             from PIL import Image
-            logo_path = "../Resources/logo.png"
+            logo_path = "Resources/logo.png"
             logo_image = Image.open(logo_path)
             logo_image = logo_image.resize((60, 60), Image.LANCZOS)
             self.logo = ctk.CTkImage(light_image=logo_image, dark_image=logo_image, size=(60, 60))
@@ -151,7 +151,7 @@ class SesionesFrame(ctk.CTkFrame):
             elements = []
             styles = getSampleStyleSheet()
 
-            logo_path = "../Resources/logo.png"
+            logo_path = "Resources/logo.png"
             if os.path.exists(logo_path):
                 logo = RLImage(logo_path, width=80, height=80)
                 elements.append(logo)
@@ -192,7 +192,7 @@ class SesionesFrame(ctk.CTkFrame):
     def _crear_boton_volver(self):
         try:
             from PIL import Image
-            img_path = "../Resources/volver.png"
+            img_path = "Resources/volver.png"
             img = Image.open(img_path)
             img = img.resize((48, 48), Image.LANCZOS)
             icono_volver = ctk.CTkImage(light_image=img, dark_image=img, size=(48, 48))

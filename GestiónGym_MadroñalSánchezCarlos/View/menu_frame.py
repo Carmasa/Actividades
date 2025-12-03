@@ -19,7 +19,7 @@ class MenuPrincipalFrame(ctk.CTkFrame):
         header.pack(fill="x", padx=20, pady=(20, 10))
 
         try:
-            logo_path = "../Resources/logo.png"
+            logo_path = "Resources/logo.png"
             logo_image = Image.open(logo_path)
             logo_image = logo_image.resize((120, 120), Image.LANCZOS)
             self.logo = ctk.CTkImage(light_image=logo_image, dark_image=logo_image, size=(120, 120))
@@ -43,16 +43,28 @@ class MenuPrincipalFrame(ctk.CTkFrame):
         ]
 
         for i, (titulo, img_nombre, comando) in enumerate(opciones):
-            shadow = ctk.CTkFrame(container, fg_color="gray30", corner_radius=10)
+            # Contenedor de sombra
+            shadow = ctk.CTkFrame(container, fg_color="gray30", corner_radius=11)
             shadow.grid(row=0, column=i, padx=10, pady=10, sticky="nsew")
 
-            card = ctk.CTkFrame(shadow, width=196, height=246, corner_radius=8, fg_color="gray20", border_width=2, border_color="gray50")
+            # Tarjeta real
+            card = ctk.CTkFrame(
+                shadow,
+                width=196,
+                height=246,
+                corner_radius=8,
+                fg_color="gray20",
+                border_width=2,
+                border_color="gray50"
+            )
             card.pack(expand=True, fill="both", padx=2, pady=2)
 
+            # Contenedor para centrar la imagen
             img_container = ctk.CTkFrame(card, fg_color="transparent")
             img_container.pack(expand=True, fill="both", padx=10, pady=(10, 5))
 
-            img_path = f"../Resources/{img_nombre}"
+            # === CARGA SEGURA DE LA IMAGEN ===
+            img_path = f"Resources/{img_nombre}"
             try:
                 img = Image.open(img_path)
                 img = img.resize((160, 160), Image.LANCZOS)
@@ -62,18 +74,23 @@ class MenuPrincipalFrame(ctk.CTkFrame):
                 card.image = photo
             except Exception as e:
                 print(f"⚠️ No se pudo cargar {img_path}: {e}")
-                ctk.CTkLabel(img_container, text="📷", font=("Arial", 30)).pack(expand=True, fill="both")
+                img_label = ctk.CTkLabel(img_container, text="📷", font=("Arial", 30))
+                img_label.pack(expand=True, fill="both")
 
+            # Título
             title_label = ctk.CTkLabel(card, text=titulo, font=("Arial", 14, "bold"))
             title_label.pack(pady=(5, 10))
 
+            # Efecto de hover
             def create_hover_effects(card_widget, title_label_widget):
                 def on_enter(event):
                     card_widget.configure(fg_color="#3498db")
                     title_label_widget.configure(text_color="white")
+
                 def on_leave(event):
                     card_widget.configure(fg_color="gray20")
                     title_label_widget.configure(text_color="black")
+
                 return on_enter, on_leave
 
             on_enter_func, on_leave_func = create_hover_effects(card, title_label)
@@ -85,6 +102,7 @@ class MenuPrincipalFrame(ctk.CTkFrame):
             title_label.bind("<Enter>", on_enter_func)
             title_label.bind("<Leave>", on_leave_func)
 
+            # Evento de clic
             card.bind("<Button-1>", lambda e, cmd=comando: cmd())
             img_label.bind("<Button-1>", lambda e, cmd=comando: cmd())
             title_label.bind("<Button-1>", lambda e, cmd=comando: cmd())
