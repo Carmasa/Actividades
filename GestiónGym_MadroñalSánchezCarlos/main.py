@@ -5,3 +5,6 @@ if __name__ == "__main__":
     inicializar_datos()
     app = GymApp()
     app.mainloop()
+
+#Antes de la primera ejecucion se debe ejecutar:
+#pip install -r requirements.txt

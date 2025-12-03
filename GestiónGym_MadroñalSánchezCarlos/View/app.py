@@ -16,7 +16,8 @@ class GymApp(ctk.CTk):
         self.geometry("1280x720")
         self.resizable(False, False)
         ctk.set_appearance_mode("System")
-        ctk.set_default_color_theme("blue")
+        ctk.set_appearance_mode("Dark")
+        self.configure(fg_color="gray15")
 
         # Centrar ventana
         self.update_idletasks()
