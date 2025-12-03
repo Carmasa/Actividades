@@ -7,7 +7,6 @@ from datetime import datetime
 class PagoController:
     @staticmethod
     def registrar_pago_mensual(cliente_id, mes, monto):
-        """Registra un pago pendiente para un cliente y mes."""
         try:
             with obtener_conexion() as conn:
                 cursor = conn.cursor()
@@ -23,7 +22,6 @@ class PagoController:
 
     @staticmethod
     def marcar_como_pagado(pago_id, fecha_pago=None):
-        """Marca un pago como completado."""
         if fecha_pago is None:
             fecha_pago = datetime.now().strftime("%Y-%m-%d")
         try:
@@ -42,7 +40,6 @@ class PagoController:
 
     @staticmethod
     def obtener_pagos_pendientes_mes_actual():
-        """Devuelve los pagos pendientes del mes actual."""
         mes_actual = datetime.now().strftime("%Y-%m")
         try:
             with obtener_conexion() as conn:
@@ -56,4 +53,20 @@ class PagoController:
                 return [Pago(*fila) for fila in filas]
         except Exception as e:
             print(f"❌ Error al obtener pagos pendientes: {e}")
+            return []
+
+    @staticmethod
+    def obtener_todos_los_pagos_del_mes(mes):
+        try:
+            with obtener_conexion() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT id, cliente_id, mes, monto, fecha_pago, estado
+                    FROM Pago
+                    WHERE mes = ?
+                """, (mes,))
+                filas = cursor.fetchall()
+                return [Pago(*fila) for fila in filas]
+        except Exception as e:
+            print(f"❌ Error al obtener todos los pagos del mes: {e}")
             return []

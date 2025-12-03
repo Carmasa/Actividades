@@ -1,9 +1,10 @@
 # View/login_frame.py
+
 import customtkinter as ctk
-from tkinter import messagebox
+from PIL import Image
+from CTkMessagebox import CTkMessagebox
 from Controller.AdminController import AdminController
 from View.menu_frame import MenuPrincipalFrame
-from PIL import Image, ImageTk
 
 class LoginFrame(ctk.CTkFrame):
     def __init__(self, parent, controller):
@@ -24,24 +25,19 @@ class LoginFrame(ctk.CTkFrame):
         frame_central = ctk.CTkFrame(self, fg_color="transparent")
         frame_central.pack(expand=True, fill="both", padx=50, pady=20)
 
-        # Título
         ctk.CTkLabel(frame_central, text="🔒 Iniciar Sesión", font=("Arial", 20, "bold")).pack(pady=10)
 
-        # Logo (si existe)
         if self.logo:
             ctk.CTkLabel(frame_central, image=self.logo, text="").pack(pady=20)
 
-        # Email
         ctk.CTkLabel(frame_central, text="Email:", font=("Arial", 12)).pack()
         self.entry_email = ctk.CTkEntry(frame_central, width=250)
         self.entry_email.pack(pady=5)
 
-        # Contraseña
         ctk.CTkLabel(frame_central, text="Contraseña:", font=("Arial", 12)).pack()
         self.entry_pass = ctk.CTkEntry(frame_central, width=250, show="*")
         self.entry_pass.pack(pady=5)
 
-        # Botón Entrar
         ctk.CTkButton(
             frame_central,
             text="Entrar",
@@ -57,12 +53,12 @@ class LoginFrame(ctk.CTkFrame):
         contraseña = self.entry_pass.get()
 
         if not email or not contraseña:
-            messagebox.showwarning("⚠️ Advertencia", "Completa todos los campos.")
+            CTkMessagebox(title="⚠️ Advertencia", message="Completa todos los campos.")
             return
 
         nombre_admin = AdminController.validar_credenciales(email, contraseña)
         if nombre_admin:
-            messagebox.showinfo("✅ Éxito", f"Bienvenido, {nombre_admin}!")
+            CTkMessagebox(title="✅ Éxito", message=f"Bienvenido, {nombre_admin}!")
             self.controller.mostrar_frame(MenuPrincipalFrame)
         else:
-            messagebox.showerror("❌ Error", "Credenciales incorrectas.")
+            CTkMessagebox(title="❌ Error", message="Credenciales incorrectas.")

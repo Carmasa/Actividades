@@ -43,6 +43,7 @@ def inicializar_db():
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL,
                     tipo TEXT NOT NULL,
+                    cantidad INTEGER NOT NULL DEFAULT 1,
                     estado TEXT DEFAULT 'disponible' CHECK(estado IN ('disponible', 'ocupado'))
                 )
             """)

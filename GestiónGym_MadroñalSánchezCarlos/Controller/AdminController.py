@@ -5,7 +5,6 @@ from Model.conection import obtener_conexion, hash_contraseña
 class AdminController:
     @staticmethod
     def validar_credenciales(email, contraseña):
-        """Valida credenciales de un admin."""
         contraseña_hasheada = hash_contraseña(contraseña)
         try:
             with obtener_conexion() as conn:
@@ -22,7 +21,6 @@ class AdminController:
 
     @staticmethod
     def existen_admins():
-        """Verifica si ya hay admins en la base de datos."""
         try:
             with obtener_conexion() as conn:
                 cursor = conn.cursor()
@@ -34,7 +32,6 @@ class AdminController:
 
     @staticmethod
     def insertar_admins_iniciales(admins):
-        """Inserta una lista de objetos Admin en la base de datos."""
         try:
             with obtener_conexion() as conn:
                 cursor = conn.cursor()
