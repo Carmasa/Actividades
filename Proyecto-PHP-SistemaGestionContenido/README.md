@@ -21,7 +21,7 @@ Cuando creemos un nuevo post se nos solicitará un título para el mismo, el con
 ### 📝 Editar Post
 Al editar post nos saldrá una ventana similar a la anterior para poder cambiar el contenido.
 
-![Editar Post](CapturasEjemplo/Editarpost.png)
+![Editar Post](CapturasEjemplo/EditarPost.png)
 
 ---
 
