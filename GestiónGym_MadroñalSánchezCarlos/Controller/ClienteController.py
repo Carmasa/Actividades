@@ -7,16 +7,23 @@ from datetime import datetime
 class ClienteController:
     @staticmethod
     def crear_cliente(nombre, email, telefono):
-        """Registra un nuevo cliente en la base de datos."""
         try:
+            # Primero, crear el cliente
             with obtener_conexion() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO Cliente (nombre, email, telefono)
                     VALUES (?, ?, ?)
                 """, (nombre, email, telefono))
+                cliente_id = cursor.lastrowid
                 conn.commit()
-                return cursor.lastrowid  # Devuelve el ID del nuevo cliente
+
+            # Luego, registrar pago pendiente del mes actual
+            from Controller.PagoController import PagoController
+            mes_actual = datetime.now().strftime("%Y-%m")
+            PagoController.registrar_pago_mensual(cliente_id, mes_actual, 50.0)
+
+            return cliente_id
         except Exception as e:
             print(f"❌ Error al crear cliente: {e}")
             return None
@@ -33,6 +40,18 @@ class ClienteController:
         except Exception as e:
             print(f"❌ Error al obtener clientes: {e}")
             return []
+
+    @staticmethod
+    def eliminar_cliente(cliente_id):
+        try:
+            with obtener_conexion() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM Cliente WHERE id = ?", (cliente_id,))
+                conn.commit()
+                return cursor.rowcount > 0
+        except Exception as e:
+            print(f"❌ Error al eliminar cliente: {e}")
+            return False
 
     @staticmethod
     def obtener_morosos():
