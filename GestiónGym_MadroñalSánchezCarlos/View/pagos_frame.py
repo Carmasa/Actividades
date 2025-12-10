@@ -73,6 +73,13 @@ class PagosFrame(ctk.CTkFrame):
         for i, (col, w) in enumerate(zip(cols, ancho)):
             ctk.CTkLabel(encabezado, text=col, font=("Arial", 12, "bold"), width=w).grid(row=0, column=i, padx=2, pady=5)
 
+
+    def tkraise(self, aboveThis=None):
+        self.mes_actual = datetime.now().strftime("%Y-%m")
+        self.mes_var.set(self.mes_actual)
+        self._cargar_morosos()
+        super().tkraise(aboveThis)
+
     def _cargar_morosos(self):
         mes = self.mes_var.get()
         self.morosos = PagoController.obtener_morosos_por_mes(mes)
@@ -200,7 +207,7 @@ class VentanaPago(ctk.CTkToplevel):
             return
 
         if PagoController.marcar_como_pagado(self.pago_id):
-            CTkMessagebox(title="Éxito", message="Pago registrado correctamente.")
+            CTkMessagebox(title="Éxito", message="Pago registrado correctamente.").get()
             self.callback()
             self.after(100, self.destroy)
         else:

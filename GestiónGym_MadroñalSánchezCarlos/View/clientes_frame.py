@@ -86,6 +86,11 @@ class ClientesFrame(ctk.CTkFrame):
             ctk.CTkLabel(encabezado, text=col, font=("Arial", 12, "bold"), width=w).grid(row=0, column=i, padx=2, pady=5)
 
 
+
+    def tkraise(self, aboveThis=None):
+        self._cargar_clientes()
+        super().tkraise(aboveThis)
+
     def _cargar_clientes(self):
         self.clientes = ClienteController.obtener_todos()
         self._aplicar_filtros()
@@ -266,7 +271,7 @@ class FormularioCliente(ctk.CTkToplevel):
 
         cliente_id = ClienteController.crear_cliente(nombre, email or None, telefono or None)
         if cliente_id:
-            CTkMessagebox(title="Éxito", message="Cliente registrado correctamente.", icon="check")
+            CTkMessagebox(title="Éxito", message="Cliente registrado correctamente.", icon="check").get()
             self.after(300, self.destroy)
             self.callback()
         else:

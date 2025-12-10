@@ -86,11 +86,9 @@ class MenuPrincipalFrame(ctk.CTkFrame):
                 def on_enter(event):
                     card_widget.configure(fg_color="#3498db")
                     title_label_widget.configure(text_color="white")
-
                 def on_leave(event):
                     card_widget.configure(fg_color="gray20")
                     title_label_widget.configure(text_color="black")
-
                 return on_enter, on_leave
 
             on_enter_func, on_leave_func = create_hover_effects(card, title_label)
@@ -107,6 +105,18 @@ class MenuPrincipalFrame(ctk.CTkFrame):
             img_label.bind("<Button-1>", lambda e, cmd=comando: cmd())
             title_label.bind("<Button-1>", lambda e, cmd=comando: cmd())
 
+        # === Botón de Cerrar Sesión (FUERA del bucle) ===
+        ctk.CTkButton(
+            self,
+            text="🔐 Cerrar Sesión",
+            command=self._cerrar_sesion,
+            fg_color="red",
+            hover_color="#8B0000",
+            width=200,
+            height=40
+        ).pack(pady=20)
+
+
     def ir_a_clientes(self):
         self.controller.mostrar_frame(ClientesFrame)
 
@@ -121,3 +131,7 @@ class MenuPrincipalFrame(ctk.CTkFrame):
 
     def ir_a_morosos(self):
         self.controller.mostrar_frame(MorososFrame)
+
+    def _cerrar_sesion(self):
+        from View.login_frame import LoginFrame
+        self.controller.mostrar_frame(LoginFrame)
