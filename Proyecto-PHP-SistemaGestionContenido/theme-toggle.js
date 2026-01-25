@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
     
-    // Check local storage or system preference
     const currentTheme = localStorage.getItem('theme');
     
     if (currentTheme === 'dark') {
