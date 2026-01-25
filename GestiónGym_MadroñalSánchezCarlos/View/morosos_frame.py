@@ -61,6 +61,11 @@ class MorososFrame(ctk.CTkFrame):
         for i, (col, w) in enumerate(zip(cols, ancho)):
             ctk.CTkLabel(encabezado, text=col, font=("Arial", 12, "bold"), width=w).grid(row=0, column=i, padx=2, pady=5)
 
+
+    def tkraise(self, aboveThis=None):
+        self._cargar_morosos()
+        super().tkraise(aboveThis)
+
     def _cargar_morosos(self):
         pagos_pendientes = PagoController.obtener_pagos_pendientes_mes_actual()
         morosos_ids = {p.cliente_id for p in pagos_pendientes}
@@ -78,7 +83,7 @@ class MorososFrame(ctk.CTkFrame):
             datos = [cliente.nombre, cliente.email or "-", cliente.telefono or "-", cliente.fecha_registro or "-", "Pendiente"]
             ancho = [200, 200, 150, 150, 150]
             for i, (dato, w) in enumerate(zip(datos, ancho)):
-                color = "red" if i == 4 else "black"
+                color = "red" if i == 4 else "white"
                 ctk.CTkLabel(fila, text=dato, width=w, text_color=color).grid(row=0, column=i, padx=2, pady=5)
 
     def _exportar_a_pdf(self):

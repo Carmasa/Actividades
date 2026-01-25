@@ -80,10 +80,16 @@ class ClientesFrame(ctk.CTkFrame):
     def _crear_encabezado(self):
         encabezado = ctk.CTkFrame(self.scroll_frame, fg_color="gray20")
         encabezado.pack(fill="x", pady=(0, 5))
-        cols = ["Nombre", "Email", "Teléfono", "Fecha Registro", "Estado", "Pago"]
-        ancho = [180, 200, 120, 120, 100, 100]
+        cols = ["Nombre", "Email", "Teléfono", "Fecha Registro", "Estado", "Pago", "Acción"]
+        ancho = [180, 200, 120, 120, 100, 100, 100]  # +1 columna
         for i, (col, w) in enumerate(zip(cols, ancho)):
             ctk.CTkLabel(encabezado, text=col, font=("Arial", 12, "bold"), width=w).grid(row=0, column=i, padx=2, pady=5)
+
+
+
+    def tkraise(self, aboveThis=None):
+        self._cargar_clientes()
+        super().tkraise(aboveThis)
 
     def _cargar_clientes(self):
         self.clientes = ClienteController.obtener_todos()
@@ -118,22 +124,61 @@ class ClientesFrame(ctk.CTkFrame):
         fila = ctk.CTkFrame(self.scroll_frame)
         fila.pack(fill="x", pady=2)
 
+        # Determinar estado de pago
         estado_pago = "Pendiente" if cliente.id in pagos_pendientes else "Pagado"
         color_pago = "red" if estado_pago == "Pendiente" else "green"
 
-        datos = [cliente.nombre, cliente.email or "-", cliente.telefono or "-", cliente.fecha_registro or "-"]
+        # Datos básicos
+        datos = [
+            cliente.nombre,
+            cliente.email or "-",
+            cliente.telefono or "-",
+            cliente.fecha_registro or "-",
+        ]
         ancho = [180, 200, 120, 120]
         for i, (dato, w) in enumerate(zip(datos, ancho)):
             ctk.CTkLabel(fila, text=dato, width=w).grid(row=0, column=i, padx=2, pady=5)
 
+        # Estado
         estado_actual = "Activo" if cliente.activo else "Inactivo"
-        combo_estado = ctk.CTkComboBox(fila, values=["Activo", "Inactivo"], width=100)
-        combo_estado.set(estado_actual)
-        combo_estado.grid(row=0, column=4, padx=2, pady=5)
+        color_estado = "green" if cliente.activo else "red"
+        ctk.CTkLabel(fila, text=estado_actual, width=100, text_color=color_estado).grid(row=0, column=4, padx=2, pady=5)
 
-        combo_pago = ctk.CTkComboBox(fila, values=["Pagado", "Pendiente"], width=100, text_color=color_pago)
-        combo_pago.set(estado_pago)
-        combo_pago.grid(row=0, column=5, padx=2, pady=5)
+        # Pago
+        ctk.CTkLabel(fila, text=estado_pago, width=100, text_color=color_pago).grid(row=0, column=5, padx=2, pady=5)
+
+        # Botón Eliminar
+        ctk.CTkButton(
+            fila,
+            text="Eliminar cliente",
+            width=100,
+            fg_color="red",
+            hover_color="#8B0000",
+            command=lambda cid=cliente.id, nombre=cliente.nombre: self._confirmar_eliminacion(cid, nombre)
+        ).grid(row=0, column=6, padx=20, pady=5)
+
+    def _confirmar_eliminacion(self, cliente_id, nombre_cliente):
+        # Crear el mensaje de confirmación
+        msg = CTkMessagebox(
+            title="Confirmar eliminación",
+            message=f"¿Eliminar cliente '{nombre_cliente}' y todos sus registros?",
+            icon="warning",
+            option_1="Cancelar",
+            option_2="Eliminar"
+        )
+        # Esperar la respuesta del usuario
+        respuesta = msg.get()
+        if respuesta == "Eliminar":
+            self._eliminar_cliente(cliente_id)
+
+
+    def _eliminar_cliente(self, cliente_id):
+        if ClienteController.eliminar_cliente(cliente_id):
+            CTkMessagebox(title="Éxito", message="Cliente eliminado correctamente.")
+            self._cargar_clientes()  # Recargar lista
+        else:
+            CTkMessagebox(title="Error", message="No se pudo eliminar el cliente.")
+
 
     def _abrir_formulario(self):
         FormularioCliente(self, self._cliente_guardado)
@@ -226,7 +271,7 @@ class FormularioCliente(ctk.CTkToplevel):
 
         cliente_id = ClienteController.crear_cliente(nombre, email or None, telefono or None)
         if cliente_id:
-            CTkMessagebox(title="Éxito", message="Cliente registrado correctamente.", icon="check")
+            CTkMessagebox(title="Éxito", message="Cliente registrado correctamente.", icon="check").get()
             self.after(300, self.destroy)
             self.callback()
         else:

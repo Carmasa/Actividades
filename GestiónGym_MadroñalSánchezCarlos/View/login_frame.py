@@ -48,6 +48,11 @@ class LoginFrame(ctk.CTkFrame):
             width=150
         ).pack(pady=20)
 
+    def tkraise(self, aboveThis=None):
+        self.entry_email.delete(0, "end")
+        self.entry_pass.delete(0, "end")
+        super().tkraise(aboveThis)
+
     def validar_login(self):
         email = self.entry_email.get()
         contraseña = self.entry_pass.get()

@@ -49,6 +49,10 @@ class AparatosFrame(ctk.CTkFrame):
         self.scroll_frame = ctk.CTkScrollableFrame(self)
         self.scroll_frame.pack(fill="both", expand=True, padx=20, pady=(0, 20))
 
+    def tkraise(self, aboveThis=None):
+        self._cargar_aparatos()
+        super().tkraise(aboveThis)
+
     def _cargar_aparatos(self):
         todos = AparatoController.obtener_todos_aparatos()
         seen = set()

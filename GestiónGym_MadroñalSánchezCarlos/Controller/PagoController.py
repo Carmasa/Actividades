@@ -56,6 +56,26 @@ class PagoController:
             return []
 
     @staticmethod
+    def obtener_morosos_por_mes(mes):
+        """Devuelve lista de clientes con pago pendiente en un mes específico."""
+        try:
+            with obtener_conexion() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT c.id, c.nombre, c.email, c.telefono, c.fecha_registro,
+                           p.id as pago_id, p.monto
+                    FROM Cliente c
+                    JOIN Pago p ON c.id = p.cliente_id
+                    WHERE p.mes = ? AND p.estado = 'pendiente'
+                    ORDER BY c.nombre
+                """, (mes,))
+                return cursor.fetchall()  # Lista de tuplas
+        except Exception as e:
+            print(f"❌ Error al obtener morosos por mes: {e}")
+            return []
+
+
+    @staticmethod
     def obtener_todos_los_pagos_del_mes(mes):
         try:
             with obtener_conexion() as conn:
