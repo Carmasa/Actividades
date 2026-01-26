@@ -1,0 +1,87 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' ======= CLASE USUARIO =======
+class Usuario {
+    - conn
+    - table_name = "usuarios"
+
+    + id
+    + nombre_usuario
+    + email
+    + contrasena
+    + rol
+    + fecha_creacion
+
+    + __construct($db)
+    + crear()
+    + login($nombre_usuario, $contrasena)
+    + buscarPorId($id)
+    + obtenerTodos()
+    + existeUsuario($nombre_usuario)
+    + existeEmail($email)
+}
+
+' ======= CLASE POST =======
+class Post {
+    - conn
+    - table_name = "posts"
+
+    + id
+    + usuario_id
+    + titulo
+    + slug
+    + contenido
+    + imagen
+    + marcado
+    + fecha_creacion
+
+    + __construct($db)
+    + crear()
+    + actualizar()
+    + obtenerTodos($limite, $offset, $usuario_id)
+    + obtenerPorUsuario($usuario_id)
+    + obtenerPorId($id)
+    + obtenerPorSlug($slug)
+    + eliminar($id)
+
+    - generarSlug($titulo)
+    - contienePalabrasProhibidas($texto)
+}
+
+' ======= CLASE ETIQUETA =======
+class Etiqueta {
+    - conn
+    - table_name = "etiquetas"
+    - pivot_table = "post_etiquetas"
+
+    + id
+    + nombre
+
+    + __construct($db)
+    + obtenerOCrear($nombre)
+    + asociarConPost($post_id, $etiqueta_id)
+    + obtenerPorPost($post_id)
+    + obtenerPostsPorEtiqueta($nombre_etiqueta)
+}
+
+' ======= CLASE PALABRA PROHIBIDA =======
+class PalabraProhibida {
+    - conn
+    - table_name = "palabras_prohibidas"
+
+    + id
+    + palabra
+
+    + __construct($db)
+    + obtenerTodas()
+    + obtenerTodasConId()
+    + crear($palabra)
+    + eliminar($id)
+}
+
+' ======= RELACIONES =======
+Usuario "1" --> "many" Post : crea >
+Post "many" -- "many" Etiqueta : etiquetado >
+Post --> PalabraProhibida : usa >
+@enduml

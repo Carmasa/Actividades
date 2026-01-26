@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $post->titulo = $_POST['title'];
     $post->contenido = $_POST['content'];
     
-    // Handle Image Upload
     $image_path = null;
     if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $target_dir = "../uploads/";
@@ -30,11 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         
-        // Basic validation
         $check = getimagesize($_FILES["image"]["tmp_name"]);
         if($check !== false) {
             if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                // Store relative path for DB
                 $image_path = "uploads/" . basename($_FILES["image"]["name"]);
             } else {
                 $message = "Error al subir la imagen.";
@@ -46,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $post->imagen = $image_path;
 
     if($post->crear()) {
-        // Handle Tags
         if(!empty($_POST['tags'])) {
             $tags_input = explode(',', $_POST['tags']);
             foreach($tags_input as $tag_name) {
