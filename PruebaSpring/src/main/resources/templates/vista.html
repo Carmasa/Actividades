@@ -1,0 +1,17 @@
+<!-- html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Resultado IMC</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="card">
+    <h1>Resultado IMC</h1>
+    <p>Peso: <span th:text="${peso}">--</span> kg</p>
+    <p>Altura: <span th:text="${altura}">--</span> m</p>
+    <p>Tu IMC es: <strong th:text="${imc}">--</strong></p>
+</div>
+</body>
+</html>
