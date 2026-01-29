@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Jugadores - Ojeador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .jugadores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .jugador-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .jugador-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-left-color: #764ba2;
+        }
+        
+        .jugador-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            word-break: break-word;
+        }
+        
+        .jugador-info {
+            display: grid;
+            gap: 12px;
+            color: #555;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .jugador-info p {
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .jugador-info strong {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .label {
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .value {
+            color: #333;
+            text-align: right;
+        }
+        
+        .posicion-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .equipo-badge {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .no-jugadores {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .no-jugadores h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .btn-volver {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .btn-volver:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Listado de Jugadores</h1>
+        </header>
+        
+        <div class="content">
+            <div th:if="${jugadores.isEmpty()}" class="no-jugadores">
+                <h2>No hay jugadores registrados</h2>
+                <p>Registra un nuevo jugador para verlo en esta lista</p>
+                <a href="/ojeador/registrar-jugador" class="btn-volver">Registrar Jugador</a>
+            </div>
+            
+            <div th:unless="${jugadores.isEmpty()}">
+                <p style="color: #666; margin-bottom: 20px;">
+                    Total de jugadores: <strong th:text="${jugadores.size()}"></strong>
+                </p>
+                
+                <div class="jugadores-grid">
+                    <div th:each="jugador : ${jugadores}" class="jugador-card">
+                        <h3 th:text="${jugador.nombre}"></h3>
+                        <div class="jugador-info">
+                            <p>
+                                <span class="label">Posición:</span>
+                                <span class="posicion-badge" th:text="${jugador.posicion}"></span>
+                            </p>
+                            <p>
+                                <span class="label">Dorsal:</span>
+                                <span class="value" th:text="'#' + ${jugador.dorsal}"></span>
+                            </p>
+                            <p>
+                                <span class="label">Valor Mercado:</span>
+                            </p>
+                            <p style="text-align: center; color: #27ae60; font-weight: bold;">
+                                €<span th:text="${#numbers.formatDecimal(jugador.valorMercado, 0, 'COMMA', 2, 'POINT')}"></span>
+                            </p>
+                            <p>
+                                <span class="label">Equipo:</span>
+                                <span class="equipo-badge" th:text="${jugador.equipo != null ? jugador.equipo.nombre : 'Sin equipo'}"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="/ojeador/" class="btn-volver">⬅ Volver al Menú</a>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Sistema Ojeador</p>
+        </footer>
+    </div>
+</body>
+</html>

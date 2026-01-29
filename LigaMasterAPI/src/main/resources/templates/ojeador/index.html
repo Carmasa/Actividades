@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ojeador - Sistema de Gestión de Futbolistas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-left-color: #764ba2;
+        }
+        
+        .nav-item h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .nav-item p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚽ OJEADOR</h1>
+            <p>Sistema de Gestión de Futbolistas y Búsqueda de Jugadores</p>
+        </header>
+        
+        <div class="nav">
+            <a href="/ojeador/registrar-jugador" class="nav-item">
+                <h3>📝 Registrar Jugador</h3>
+                <p>Añade un nuevo jugador a la base de datos</p>
+            </a>
+            
+            <a href="/ojeador/registrar-equipo" class="nav-item">
+                <h3>🏟️ Registrar Equipo</h3>
+                <p>Añade un nuevo equipo a la base de datos</p>
+            </a>
+            
+            <a href="/ojeador/buscar-por-posicion" class="nav-item">
+                <h3>🔍 Buscar por Posición</h3>
+                <p>Encuentra jugadores según su posición</p>
+            </a>
+            
+            <a href="/ojeador/jugador-mas-caro" class="nav-item">
+                <h3>💰 Jugador Más Caro</h3>
+                <p>Visualiza al jugador con mayor valor de mercado</p>
+            </a>
+            
+            <a href="/ojeador/historial-equipos" class="nav-item">
+                <h3>📊 Historial de Equipos</h3>
+                <p>Consulta los equipos donde ha jugado un futbolista</p>
+            </a>
+            
+            <a href="/ojeador/listar" class="nav-item">
+                <h3>📋 Listar Jugadores</h3>
+                <p>Ve todos los jugadores registrados</p>
+            </a>
+            
+            <a href="/" class="nav-item">
+                <h3>🏠 Inicio Principal</h3>
+                <p>Vuelve al inicio general</p>
+            </a>
+        </div>
+        
+        <div class="content">
+            <h2>Bienvenido al Sistema Ojeador</h2>
+            <p style="margin-top: 15px; color: #666; line-height: 1.8;">
+                Este sistema permite la gestión completa de futbolistas, incluyendo búsquedas avanzadas
+                por posición, análisis de valores de mercado y seguimiento del historial de equipos.
+                Utiliza el menú anterior para acceder a las diferentes funcionalidades.
+            </p>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Sistema Ojeador - Gestión de Futbolistas</p>
+        </footer>
+    </div>
+</body>
+</html>

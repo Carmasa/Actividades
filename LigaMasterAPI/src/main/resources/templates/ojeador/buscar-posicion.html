@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar por Posición - Ojeador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-volver {
+            background: #f0f0f0;
+            color: #333;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-volver:hover {
+            background: #e0e0e0;
+        }
+        
+        .resultados {
+            margin-top: 40px;
+        }
+        
+        .resultados h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .jugadores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .jugador-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .jugador-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .jugador-card h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .jugador-info {
+            display: grid;
+            gap: 8px;
+            color: #555;
+        }
+        
+        .jugador-info p {
+            margin: 0;
+            font-size: 0.95em;
+        }
+        
+        .jugador-info strong {
+            color: #333;
+        }
+        
+        .no-resultados {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Buscar Jugadores por Posición</h1>
+        </header>
+        
+        <div class="content">
+            <form method="post" action="/ojeador/buscar-por-posicion">
+                <div class="form-group">
+                    <label for="posicion">Selecciona una Posición</label>
+                    <select id="posicion" name="posicion" required>
+                        <option value="">-- Selecciona una posición --</option>
+                        <option th:each="pos : ${posiciones}" th:value="${pos}" th:text="${pos}"></option>
+                    </select>
+                </div>
+                
+                <div class="buttons">
+                    <button type="submit">Buscar Jugadores</button>
+                    <a href="/ojeador/" class="btn-volver">Volver</a>
+                </div>
+            </form>
+            
+            <div th:if="${jugadores}" class="resultados">
+                <h2>Resultados para: <span th:text="${posicion}"></span></h2>
+                <div th:if="${jugadores.isEmpty()}" class="no-resultados">
+                    <p>No se encontraron jugadores en esta posición</p>
+                </div>
+                <div th:unless="${jugadores.isEmpty()}" class="jugadores-grid">
+                    <div th:each="jugador : ${jugadores}" class="jugador-card">
+                        <h3 th:text="${jugador.nombre}"></h3>
+                        <div class="jugador-info">
+                            <p><strong>Posición:</strong> <span th:text="${jugador.posicion}"></span></p>
+                            <p><strong>Dorsal:</strong> <span th:text="${jugador.dorsal}"></span></p>
+                            <p><strong>Valor Mercado:</strong> €<span th:text="${#numbers.formatDecimal(jugador.valorMercado, 0, 'COMMA', 2, 'POINT')}"></span></p>
+                            <p><strong>Equipo:</strong> <span th:text="${jugador.equipo != null ? jugador.equipo.nombre : 'Sin equipo'}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Sistema Ojeador</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión - Inicio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .module-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            font-size: 3em;
+        }
+        
+        .module-content {
+            padding: 25px;
+        }
+        
+        .module-content h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        
+        .module-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 25px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Sistema de Gestión</h1>
+            <p>Aplicación de Práctica - Spring Boot</p>
+        </header>
+        
+        <div class="modules">
+            <!-- Módulo Personas Original -->
+            <div class="module-card">
+                <div class="module-header">👤</div>
+                <div class="module-content">
+                    <h2>Gestión de Personas</h2>
+                    <p>Sistema original para gestionar personas. Registra y visualiza los datos en la base de datos.</p>
+                    <div style="margin-top: 20px;">
+                        <h3 style="color: #667eea; font-size: 1em; margin-bottom: 12px;">Acciones:</h3>
+                        <form action="/guardar" method="post" style="margin-bottom: 15px;">
+                            <input type="text" name="nombrePersona" placeholder="Nombre de la persona" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <button type="submit" style="width: 100%; padding: 10px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Agregar Persona</button>
+                        </form>
+                        <h4 style="color: #333; margin-bottom: 10px;">Personas Registradas:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li th:each="p : ${lista}" style="background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #667eea;" th:text="${p.nombre}"></li>
+                        </ul>
+                        <span th:if="${lista.isEmpty()}" style="color: #999; display: block; text-align: center; padding: 20px;">No hay personas registradas</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Módulo Ojeador -->
+            <a href="/ojeador/" class="module-card">
+                <div class="module-header">⚽</div>
+                <div class="module-content">
+                    <h2>Ojeador - Gestión de Futbolistas</h2>
+                    <p>Sistema avanzado para la gestión de jugadores de fútbol, equipos y búsquedas personalizadas.</p>
+                    <div style="margin-top: 20px; color: #667eea; font-weight: bold;">
+                        ➜ Acceder al módulo
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Sistema de Gestión - Aplicación de Práctica</p>
+        </footer>
+    </div>
+</body>
+</html>
