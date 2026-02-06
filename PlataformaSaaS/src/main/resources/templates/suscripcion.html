@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Detalle de Suscripción</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">← Volver</a>
+    <h1>Detalle de Suscripción</h1>
+
+    <div class="card">
+        <p><strong>Usuario:</strong> <span th:text="${suscripcion.usuario.email}"></span></p>
+        <p><strong>Plan Actual:</strong> <span th:text="${suscripcion.plan.nombre}"></span> (<span
+                th:text="${suscripcion.plan.precioMensual}"></span>€/mes)</p>
+        <p><strong>Fecha Inicio:</strong> <span th:text="${suscripcion.fechaInicio}"></span></p>
+        <p><strong>Próxima Factura:</strong> <span th:text="${suscripcion.fechaProximaFactura}"></span></p>
+        <p><strong>Estado:</strong> <span th:text="${suscripcion.estado}"></span></p>
+    </div>
+
+    <h2>Historial de Facturación</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="f : ${suscripcion.facturas}">
+                <td th:text="${f.fechaEmision}"></td>
+                <td th:text="${f.concepto}"></td>
+                <td th:text="${f.monto} + '€'"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><em>Nota: El historial de cambios (Envers) se puede consultar en la base de datos (SUSCRIPCIONES_AUD).</em></p>
+</body>
+
+</html>
