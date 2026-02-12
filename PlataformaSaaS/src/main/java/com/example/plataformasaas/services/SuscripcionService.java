@@ -2,25 +2,28 @@ package com.example.plataformasaas.services;
 
 import com.example.plataformasaas.models.*;
 import com.example.plataformasaas.repositories.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
-public class    SuscripcionService {
+public class SuscripcionService {
 
     private final SuscripcionRepository suscripcionRepository;
     private final FacturaRepository facturaRepository;
     private final PlanRepository planRepository;
+    private final TaxService taxService;
 
     public SuscripcionService(SuscripcionRepository suscripcionRepository, FacturaRepository facturaRepository,
-            PlanRepository planRepository) {
+            PlanRepository planRepository, TaxService taxService) {
         this.suscripcionRepository = suscripcionRepository;
         this.facturaRepository = facturaRepository;
         this.planRepository = planRepository;
+        this.taxService = taxService;
     }
 
     @Transactional
@@ -64,6 +67,20 @@ public class    SuscripcionService {
         return suscripcionRepository.save(suscripcion);
     }
 
+    @Scheduled(cron = "0 0 0 * * ?") // Ejecuta cada día a medianoche
+    @Transactional
+    public void renovarSuscripciones() {
+        LocalDate hoy = LocalDate.now();
+        List<Suscripcion> suscripcionesParaRenovar = suscripcionRepository
+                .findByFechaProximaFacturaBeforeAndEstado(hoy.plusDays(1), EstadoSuscripcion.ACTIVA);
+
+        for (Suscripcion s : suscripcionesParaRenovar) {
+            generarFactura(s, s.getPlan().getPrecioMensual(), "Renovación Mensual: " + s.getPlan().getNombre());
+            s.setFechaProximaFactura(s.getFechaProximaFactura().plusDays(30));
+            suscripcionRepository.save(s);
+        }
+    }
+
     private double calcularProrrateo(Suscripcion suscripcion, Plan nuevoPlan) {
         LocalDate hoy = LocalDate.now();
         LocalDate proximaFactura = suscripcion.getFechaProximaFactura();
@@ -81,13 +98,29 @@ public class    SuscripcionService {
         return Math.max(0, diferenciaTotal);
     }
 
-    public void generarFactura(Suscripcion suscripcion, Double monto, String concepto) {
+    public void generarFactura(Suscripcion suscripcion, Double montoBase, String concepto) {
+        String pais = "default";
+        if (suscripcion.getUsuario().getPerfil() != null) {
+            pais = suscripcion.getUsuario().getPerfil().getPais();
+        }
+
+        double tasaImpuesto = taxService.calcularImpuesto(pais);
+        double montoTotal = montoBase * (1 + tasaImpuesto);
+
         Factura factura = Factura.builder()
                 .suscripcion(suscripcion)
                 .fechaEmision(LocalDate.now())
-                .monto(monto)
-                .concepto(concepto)
+                .monto(montoTotal)
+                .concepto(concepto + String.format(" (Inc. %.0f%% Impuestos)", tasaImpuesto * 100))
                 .build();
         facturaRepository.save(factura);
+    }
+
+    @Transactional
+    public void cancelarSuscripcion(Long id) {
+        Suscripcion s = suscripcionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe"));
+        s.setEstado(EstadoSuscripcion.CANCELADA);
+        suscripcionRepository.save(s);
     }
 }

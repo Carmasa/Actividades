@@ -1,17 +1,11 @@
 package com.example.plataformasaas.models;
 
 import jakarta.persistence.*;
-import lombok.*;
 import org.hibernate.envers.Audited;
 import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Audited
 public class Usuario {
     @Id
@@ -30,4 +24,96 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Suscripcion> suscripciones;
+
+    public Usuario() {
+    }
+
+    public Usuario(Long id, String email, String password, Perfil perfil, List<Suscripcion> suscripciones) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.perfil = perfil;
+        this.suscripciones = suscripciones;
+    }
+
+    public static UsuarioBuilder builder() {
+        return new UsuarioBuilder();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public List<Suscripcion> getSuscripciones() {
+        return suscripciones;
+    }
+
+    public void setSuscripciones(List<Suscripcion> suscripciones) {
+        this.suscripciones = suscripciones;
+    }
+
+    public static class UsuarioBuilder {
+        private Long id;
+        private String email;
+        private String password;
+        private Perfil perfil;
+        private List<Suscripcion> suscripciones;
+
+        public UsuarioBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public UsuarioBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UsuarioBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UsuarioBuilder perfil(Perfil perfil) {
+            this.perfil = perfil;
+            return this;
+        }
+
+        public UsuarioBuilder suscripciones(List<Suscripcion> suscripciones) {
+            this.suscripciones = suscripciones;
+            return this;
+        }
+
+        public Usuario build() {
+            return new Usuario(id, email, password, perfil, suscripciones);
+        }
+    }
 }

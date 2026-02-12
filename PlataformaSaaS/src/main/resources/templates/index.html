@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Plataforma SaaS</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        .form-group { margin-bottom: 10px; }
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
+
 <body>
     <h1>Plataforma SaaS - Validación Core</h1>
 
@@ -17,8 +36,20 @@
         <div class="form-group">
             <label>Email:</label>
             <input type="email" name="email" required>
+            <label>País:</label>
+            <select name="pais">
+                <option value="ES">España (21% IVA)</option>
+                <option value="FR">Francia (20% IVA)</option>
+                <option value="US">USA (0% Impuesto)</option>
+                <option value="XX">Otro (15% Default)</option>
+            </select>
             <button type="submit">Registrar con Plan Basic</button>
         </div>
+    </form>
+
+    <h2>Pruebas y Debug</h2>
+    <form th:action="@{/test/renovar}" method="post">
+        <button type="submit" style="background-color: #ff9800; color: white;">Forzar Renovación Diaria (Test)</button>
     </form>
 
     <h2>Usuarios y Suscripciones</h2>
@@ -42,13 +73,18 @@
                 </td>
                 <td>
                     <div th:if="${!u.suscripciones.empty}">
-                        <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cambiar-plan'}" method="post" style="display:inline;">
+                        <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cambiar-plan'}"
+                            method="post" style="display:inline;">
                             <select name="nuevoNivel">
                                 <option value="BASIC">Basic (10€)</option>
                                 <option value="PREMIUM">Premium (30€)</option>
                                 <option value="ENTERPRISE">Enterprise (100€)</option>
                             </select>
-                            <button type="submit">Cambiar Plan (Cobra prorrateo si sube)</button>
+                            <button type="submit">Cambiar Plan</button>
+                        </form>
+                        <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cancelar'}" method="post"
+                            style="display:inline; margin-left:10px;">
+                            <button type="submit" style="background-color: #f44336; color: white;">Cancelar</button>
                         </form>
                         <br>
                         <a th:href="@{'/suscripciones/' + ${u.suscripciones[0].id}}">Ver Facturas e Historial</a>
@@ -58,4 +94,5 @@
         </tbody>
     </table>
 </body>
+
 </html>

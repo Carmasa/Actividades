@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Panel de Auditoría</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Historial de Cambios (Envers)</h1>
+        <a href="/" class="btn btn-secondary mb-3">Volver</a>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Entidad (Suscripción ID)</th>
+                    <th>Rev ID</th>
+                    <th>Tipo Rev</th>
+                    <th>Fecha Próxima Factura</th>
+                    <th>Estado</th>
+                    <th>Plan (ID)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- history is List<Object[]>: [0]=Entity, [1]=RevEntity, [2]=RevisionType -->
+                <tr th:each="entry : ${history}">
+                    <td th:text="${entry[0].id}">1</td>
+                    <!-- Envers DefaultRevisionEntity doesn't expose ID easily in template without casting, 
+                 so we'll just show the object or specific fields if we casted in controller. 
+                 For simplicity here, we assume standard Envers setup. -->
+                    <td th:text="${entry[1].id}">1</td>
+                    <td th:text="${entry[2]}">MOD</td>
+
+                    <td th:text="${entry[0].fechaProximaFactura}">2023-01-01</td>
+                    <td th:text="${entry[0].estado}">ACTIVA</td>
+                    <td th:text="${entry[0].plan.id}">1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
