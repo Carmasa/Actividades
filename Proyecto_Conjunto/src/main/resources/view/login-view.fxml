@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="org.example.proyecto_conjunto.controller.LoginController"
+      style="-fx-background-color: #f0f2f5;">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <Label text="Gestión de Tareas" textFill="#1877f2">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+    
+    <VBox spacing="10.0" maxWidth="300">
+        <TextField fx:id="usernameField" promptText="Usuario" style="-fx-padding: 10;" />
+        <PasswordField fx:id="passwordField" promptText="Contraseña" style="-fx-padding: 10;" />
+        <Button onAction="#handleLogin" text="Iniciar Sesión" maxWidth="Infinity" 
+                style="-fx-background-color: #1877f2; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" />
+        <Button onAction="#handleGoToRegister" text="Crear nueva cuenta" maxWidth="Infinity" 
+                style="-fx-background-color: #42b72a; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10;" />
+        <Label fx:id="errorLabel" textFill="red" />
+    </VBox>
+</VBox>
