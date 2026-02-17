@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- MENÚ PRINCIPAL "Gestión EduOdoo" -->
+        <menuitem
+            id="eduodoo_menu_root_main"
+            name="Gestión EduOdoo"
+            web_icon="profesor,static/description/icon.png"
+            sequence="1"/>
+
+        <!-- SUBMENÚ: PROFESOR -->
+        <menuitem
+            id="profesor_menu_item"
+            name="Profesores"
+            parent="eduodoo_menu_root_main"
+            action="profesor.profesor_action"
+            sequence="10"/>
+
+        <!-- SUBMENÚ: CURSO -->
+        <menuitem
+            id="curso_menu_item"
+            name="Cursos"
+            parent="eduodoo_menu_root_main"
+            action="curso.curso_action"
+            sequence="20"/>
+
+        <!-- SUBMENÚ: ALUMNO -->
+        <menuitem
+            id="alumno_menu_item"
+            name="Alumnos"
+            parent="eduodoo_menu_root_main"
+            action="alumno.alumno_action"
+            sequence="30"/>
+
+        <!-- SUBMENÚ: SESIÓN -->
+        <menuitem
+            id="sesion_menu_item"
+            name="Sesiones"
+            parent="eduodoo_menu_root_main"
+            action="sesion.sesion_action"
+            sequence="40"/>
+
+        <!-- SUBMENÚ: CLASES -->
+        <menuitem
+            id="clases_menu_item"
+            name="Clases"
+            parent="eduodoo_menu_root_main"
+            action="clases.clases_action"
+            sequence="50"/>
+
+        <!-- SUBMENÚ: MATRÍCULA -->
+        <menuitem
+            id="matricula_menu_item"
+            name="Matrículas"
+            parent="eduodoo_menu_root_main"
+            action="matricula.matricula_action"
+            sequence="60"/>
+
+        <!-- SUBMENÚ: FACTURACIÓN -->
+        <menuitem
+            id="facturacion_menu_item"
+            name="Facturación"
+            parent="eduodoo_menu_root_main"
+            action="facturacion.facturacion_action"
+            sequence="70"/>
+
+    </data>
+</odoo>

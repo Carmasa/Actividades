@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- VISTA LIST (TABLA) -->
+        <record id="sesion_tree_view" model="ir.ui.view">
+            <field name="name">Sesión List</field>
+            <field name="model">sesion.sesion</field>
+            <field name="arch" type="xml">
+                <list string="Sesiones">
+                    <field name="titulo"/>
+                    <field name="fecha_inicio"/>
+                    <field name="duracion"/>
+                    <field name="numero_asientos"/>
+                    <field name="alumnos_inscritos"/>
+                    <field name="porcentaje_ocupacion" widget="progressbar" 
+                           decoration-danger="porcentaje_ocupacion &gt;= 100"
+                           decoration-warning="porcentaje_ocupacion &gt;= 80"
+                           decoration-success="porcentaje_ocupacion &lt; 80"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- VISTA KANBAN -->
+        <record id="sesion_kanban_view" model="ir.ui.view">
+            <field name="name">Sesión Kanban</field>
+            <field name="model">sesion.sesion</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="estado" class="o_kanban_small_column">
+                    <field name="titulo"/>
+                    <field name="curso_id"/>
+                    <field name="profesor_id"/>
+                    <field name="porcentaje_ocupacion"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="o_kanban_record_top">
+                                <strong class="o_kanban_record_title">
+                                    <field name="titulo"/>
+                                </strong>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div><strong>Curso:</strong> <field name="curso_id"/></div>
+                                <div><strong>Prof:</strong> <field name="profesor_id"/></div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="porcentaje_ocupacion" widget="progressbar"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- VISTA CALENDAR -->
+        <record id="sesion_calendar_view" model="ir.ui.view">
+            <field name="name">Sesión Calendar</field>
+            <field name="model">sesion.sesion</field>
+            <field name="arch" type="xml">
+                <calendar string="Sesiones" date_start="fecha_inicio" date_stop="fecha_fin" color="curso_id">
+                    <field name="titulo"/>
+                    <field name="profesor_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- VISTA FORM (FORMULARIO) -->
+        <record id="sesion_form_view" model="ir.ui.view">
+            <field name="name">Sesión Form</field>
+            <field name="model">sesion.sesion</field>
+            <field name="arch" type="xml">
+                <form string="Sesión">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="titulo"/>
+                                <field name="curso_id"/>
+                                <field name="profesor_id"/>
+                            </group>
+                            <group>
+                                <field name="fecha_inicio"/>
+                                <field name="duracion"/>
+                                <field name="numero_asientos"/>
+                            </group>
+                        </group>
+                        <separator string="Información de Ocupación"/>
+                        <group>
+                            <group>
+                                <field name="alumnos_inscritos" readonly="1"/>
+                                <field name="porcentaje_ocupacion" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="color_sesion" readonly="1"/>
+                                <field name="estado"/>
+                            </group>
+                        </group>
+                        <separator string="Ocupación Visual"/>
+                        <group>
+                            <field name="porcentaje_ocupacion" widget="progressbar" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA SEARCH (BÚSQUEDA Y FILTROS) -->
+        <record id="sesion_search_view" model="ir.ui.view">
+            <field name="name">Sesión Search</field>
+            <field name="model">sesion.sesion</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Sesiones">
+                    <field name="titulo"/>
+                    <field name="curso_id"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ACCIÓN (ir.actions.act_window) -->
+        <record id="sesion_action" model="ir.actions.act_window">
+            <field name="name">Sesiones</field>
+            <field name="res_model">sesion.sesion</field>
+            <field name="view_mode">kanban,calendar,list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea la primera sesión
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

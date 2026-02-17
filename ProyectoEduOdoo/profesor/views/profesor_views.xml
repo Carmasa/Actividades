@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- VISTA LIST (TABLA) -->
+        <record id="profesor_tree_view" model="ir.ui.view">
+            <field name="name">Profesor List</field>
+            <field name="model">profesor.profesor</field>
+            <field name="arch" type="xml">
+                <list string="Profesores">
+                    <field name="nombre"/>
+                    <field name="apellidos"/>
+                    <field name="email"/>
+                    <field name="titulacion"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- VISTA FORM (FORMULARIO) -->
+        <record id="profesor_form_view" model="ir.ui.view">
+            <field name="name">Profesor Form</field>
+            <field name="model">profesor.profesor</field>
+            <field name="arch" type="xml">
+                <form string="Profesor">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="nombre"/>
+                                <field name="apellidos"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="titulacion"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA SEARCH (BÚSQUEDA Y FILTROS) -->
+        <record id="profesor_search_view" model="ir.ui.view">
+            <field name="name">Profesor Search</field>
+            <field name="model">profesor.profesor</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Profesores">
+                    <field name="nombre"/>
+                    <field name="apellidos"/>
+                    <field name="email"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ACCIÓN (ir.actions.act_window) -->
+        <record id="profesor_action" model="ir.actions.act_window">
+            <field name="name">Profesores</field>
+            <field name="res_model">profesor.profesor</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="profesor_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea el primer profesor
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

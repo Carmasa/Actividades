@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- VISTA LIST (TABLA) -->
+        <record id="curso_tree_view" model="ir.ui.view">
+            <field name="name">Curso List</field>
+            <field name="model">curso.curso</field>
+            <field name="arch" type="xml">
+                <list string="Cursos">
+                    <field name="titulo"/>
+                    <field name="nivel"/>
+                    <field name="precio"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- VISTA FORM (FORMULARIO) -->
+        <record id="curso_form_view" model="ir.ui.view">
+            <field name="name">Curso Form</field>
+            <field name="model">curso.curso</field>
+            <field name="arch" type="xml">
+                <form string="Curso">
+                    <sheet>
+                        <group>
+                            <field name="titulo"/>
+                            <field name="nivel"/>
+                            <field name="precio"/>
+                        </group>
+                        <group>
+                            <field name="descripcion" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA SEARCH (BÚSQUEDA Y FILTROS) -->
+        <record id="curso_search_view" model="ir.ui.view">
+            <field name="name">Curso Search</field>
+            <field name="model">curso.curso</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Cursos">
+                    <field name="titulo"/>
+                    <field name="nivel"/>
+                    <filter name="filter_a1" string="A1" domain="[('nivel', '=', 'A1')]"/>
+                    <filter name="filter_a2" string="A2" domain="[('nivel', '=', 'A2')]"/>
+                    <filter name="filter_b1" string="B1" domain="[('nivel', '=', 'B1')]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ACCIÓN (ir.actions.act_window) -->
+        <record id="curso_action" model="ir.actions.act_window">
+            <field name="name">Cursos</field>
+            <field name="res_model">curso.curso</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="curso_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea el primer curso
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

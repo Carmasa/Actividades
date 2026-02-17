@@ -1,15 +1,15 @@
--- Create Database
-CREATE DATABASE IF NOT EXISTS task_manager_db;
-USE task_manager_db;
+-- Crear Base de Datos
+CREATE DATABASE IF NOT EXISTS gestor_tareas_db;
+USE gestor_tareas_db;
 
--- Create Usuarios table
+-- Tabla de Usuarios (Mantenida por compatibilidad mínima)
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    nombre_usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL
 );
 
--- Create Proyectos table
+-- Tabla de Proyectos
 CREATE TABLE IF NOT EXISTS proyectos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
@@ -18,20 +18,20 @@ CREATE TABLE IF NOT EXISTS proyectos (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- Create Tareas table
+-- Tabla de Tareas
 CREATE TABLE IF NOT EXISTS tareas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     proyecto_id INT NOT NULL,
     titulo VARCHAR(150) NOT NULL,
-    estado ENUM('Pendiente', 'En Progreso', 'Completada') DEFAULT 'Pendiente',
+    completada BOOLEAN DEFAULT FALSE,
     fecha_limite DATE,
     FOREIGN KEY (proyecto_id) REFERENCES proyectos(id) ON DELETE CASCADE
 );
 
--- Insert dummy data for testing
-INSERT INTO usuarios (username, password) VALUES ('admin', 'admin123');
-INSERT INTO usuarios (username, password) VALUES ('user1', 'pass123');
+-- Insertar datos por defecto
+INSERT IGNORE INTO usuarios (id, nombre_usuario, contrasena) VALUES (1, 'admin', 'admin123');
+INSERT IGNORE INTO proyectos (id, usuario_id, nombre, descripcion) VALUES (1, 1, 'Proyecto DAM', 'Proyecto único de gestión');
 
-INSERT INTO proyectos (usuario_id, nombre, descripcion) VALUES (1, 'Proyecto DAM', 'Actividad conjunta 1º y 2º DAM');
-INSERT INTO tareas (proyecto_id, titulo, estado, fecha_limite) VALUES (1, 'Diseño DB', 'Completada', '2024-02-10');
-INSERT INTO tareas (proyecto_id, titulo, estado, fecha_limite) VALUES (1, 'Desarrollo UI', 'Pendiente', '2024-02-15');
+-- Tareas de ejemplo
+INSERT INTO tareas (proyecto_id, titulo, completada, fecha_limite) VALUES (1, 'Diseñar Base de Datos', TRUE, '2024-02-20');
+INSERT INTO tareas (proyecto_id, titulo, completada, fecha_limite) VALUES (1, 'Implementar Interfaz', FALSE, '2024-02-25');

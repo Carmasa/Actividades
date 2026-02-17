@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- VISTA LIST (TABLA) -->
+        <record id="alumno_tree_view" model="ir.ui.view">
+            <field name="name">Alumno List</field>
+            <field name="model">alumno.alumno</field>
+            <field name="arch" type="xml">
+                <list string="Alumnos">
+                    <field name="nombre"/>
+                    <field name="apellidos"/>
+                    <field name="email"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- VISTA FORM (FORMULARIO) -->
+        <record id="alumno_form_view" model="ir.ui.view">
+            <field name="name">Alumno Form</field>
+            <field name="model">alumno.alumno</field>
+            <field name="arch" type="xml">
+                <form string="Alumno">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="nombre"/>
+                                <field name="apellidos"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                            </group>
+                        </group>
+                        <separator string="Cursos Inscritos"/>
+                        <field name="curso_ids" nolabel="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA SEARCH (BÚSQUEDA Y FILTROS) -->
+        <record id="alumno_search_view" model="ir.ui.view">
+            <field name="name">Alumno Search</field>
+            <field name="model">alumno.alumno</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Alumnos">
+                    <field name="nombre"/>
+                    <field name="apellidos"/>
+                    <field name="email"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ACCIÓN (ir.actions.act_window) -->
+        <record id="alumno_action" model="ir.actions.act_window">
+            <field name="name">Alumnos</field>
+            <field name="res_model">alumno.alumno</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="alumno_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea el primer alumno
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

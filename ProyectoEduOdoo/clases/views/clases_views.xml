@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- VISTA LIST (TABLA) -->
+        <record id="clases_tree_view" model="ir.ui.view">
+            <field name="name">Clases List</field>
+            <field name="model">clases.clases</field>
+            <field name="arch" type="xml">
+                <list string="Clases">
+                    <field name="nombre"/>
+                    <field name="horario"/>
+                    <field name="grupo"/>
+                    <field name="sesion_id"/>
+                    <field name="profesor_id"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- VISTA FORM (FORMULARIO) -->
+        <record id="clases_form_view" model="ir.ui.view">
+            <field name="name">Clases Form</field>
+            <field name="model">clases.clases</field>
+            <field name="arch" type="xml">
+                <form string="Clase">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="nombre"/>
+                                <field name="horario"/>
+                            </group>
+                            <group>
+                                <field name="grupo"/>
+                                <field name="sesion_id"/>
+                                <field name="profesor_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA SEARCH (BÚSQUEDA Y FILTROS) -->
+        <record id="clases_search_view" model="ir.ui.view">
+            <field name="name">Clases Search</field>
+            <field name="model">clases.clases</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Clases">
+                    <field name="nombre"/>
+                    <field name="grupo"/>
+                    <field name="profesor_id"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ACCIÓN (ir.actions.act_window) -->
+        <record id="clases_action" model="ir.actions.act_window">
+            <field name="name">Clases</field>
+            <field name="res_model">clases.clases</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="clases_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea la primera clase
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>
