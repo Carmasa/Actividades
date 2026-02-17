@@ -25,15 +25,19 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Suscripcion> suscripciones;
 
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
     public Usuario() {
     }
 
-    public Usuario(Long id, String email, String password, Perfil perfil, List<Suscripcion> suscripciones) {
+    public Usuario(Long id, String email, String password, Perfil perfil, List<Suscripcion> suscripciones, Rol rol) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.perfil = perfil;
         this.suscripciones = suscripciones;
+        this.rol = rol;
     }
 
     public static UsuarioBuilder builder() {
@@ -80,12 +84,21 @@ public class Usuario {
         this.suscripciones = suscripciones;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
     public static class UsuarioBuilder {
         private Long id;
         private String email;
         private String password;
         private Perfil perfil;
         private List<Suscripcion> suscripciones;
+        private Rol rol;
 
         public UsuarioBuilder id(Long id) {
             this.id = id;
@@ -112,8 +125,13 @@ public class Usuario {
             return this;
         }
 
+        public UsuarioBuilder rol(Rol rol) {
+            this.rol = rol;
+            return this;
+        }
+
         public Usuario build() {
-            return new Usuario(id, email, password, perfil, suscripciones);
+            return new Usuario(id, email, password, perfil, suscripciones, rol);
         }
     }
 }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SaaS Platform - Registro</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        p.subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            box-sizing: border-box;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .footer-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #b91c1c;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-card">
+        <h1>Únete a Nosotros</h1>
+        <p class="subtitle">Comienza tu prueba gratuita hoy mismo</p>
+
+        <div th:if="${param.error}" class="error" th:text="${param.error}"></div>
+
+        <form th:action="@{/register}" method="post">
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required placeholder="tu@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+                <label for="pais">País de Residencia</label>
+                <select id="pais" name="pais" required>
+                    <option value="ES">España (21% IVA)</option>
+                    <option value="FR">Francia (20% IVA)</option>
+                    <option value="US">USA (0% Impuestos)</option>
+                    <option value="DE">Alemania (19% IVA)</option>
+                    <option value="XX">Otro (15% Default)</option>
+                </select>
+            </div>
+            <button type="submit">Crear Cuenta</button>
+        </form>
+
+        <div class="footer-link">
+            ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+        </div>
+    </div>
+</body>
+
+</html>

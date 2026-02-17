@@ -23,12 +23,28 @@ class SuscripcionServiceTest {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private FacturaRepository facturaRepository;
+    @Autowired
+    private PlanRepository planRepository;
 
     private Usuario usuario;
 
     @BeforeEach
     void setUp() {
-        usuario = Usuario.builder().email("test@example.com").password("pass").build();
+        // Inicializar planes si no existen (necesario para el servicio)
+        if (planRepository.findByNivel(NivelPlan.BASIC).isEmpty()) {
+            Plan basic = Plan.builder().nivel(NivelPlan.BASIC).nombre("Basic").precioMensual(10.0).build();
+            planRepository.save(basic);
+        }
+        if (planRepository.findByNivel(NivelPlan.PREMIUM).isEmpty()) {
+            Plan premium = Plan.builder().nivel(NivelPlan.PREMIUM).nombre("Premium").precioMensual(30.0).build();
+            planRepository.save(premium);
+        }
+
+        usuario = Usuario.builder()
+                .email("test@example.com")
+                .password("pass")
+                .rol(Rol.CLIENTE)
+                .build();
         usuario = usuarioRepository.save(usuario);
     }
 

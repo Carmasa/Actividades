@@ -3,6 +3,7 @@ package com.example.plataformasaas.controllers;
 import com.example.plataformasaas.models.*;
 import com.example.plataformasaas.repositories.*;
 import com.example.plataformasaas.services.SuscripcionService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,42 +18,64 @@ public class SaaSController {
     private final PlanRepository planRepository;
     private final SuscripcionService suscripcionService;
     private final FacturaRepository facturaRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public SaaSController(UsuarioRepository usuarioRepository, SuscripcionRepository suscripcionRepository,
             PlanRepository planRepository, SuscripcionService suscripcionService,
-            FacturaRepository facturaRepository) {
+            FacturaRepository facturaRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.suscripcionRepository = suscripcionRepository;
         this.planRepository = planRepository;
         this.suscripcionService = suscripcionService;
         this.facturaRepository = facturaRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("usuarios", usuarioRepository.findAll());
-        model.addAttribute("planes", planRepository.findAll());
-        return "index";
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
-    @PostMapping("/usuarios/registrar")
-    public String registrarUsuario(@RequestParam String email, @RequestParam(required = false) String pais) {
-        // Usando constructor en lugar de builder para evitar problemas de IDE
-        // reportados
-        String paisFinal = (pais != null && !pais.isBlank()) ? pais : "ES";
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String processRegister(@RequestParam String email, @RequestParam String password,
+            @RequestParam String pais) {
+        if (usuarioRepository.findByEmail(email).isPresent()) {
+            return "redirect:/register?error=Email ya existe";
+        }
+
         com.example.plataformasaas.models.Perfil perfil = new com.example.plataformasaas.models.Perfil(null, "Usuario",
-                "Nuevo", paisFinal, null);
+                "Nuevo", pais, null);
 
         Usuario usuario = Usuario.builder()
                 .email(email)
-                .password("1234")
+                .password(passwordEncoder.encode(password))
                 .perfil(perfil)
+                .rol(Rol.CLIENTE)
                 .build();
 
         usuario = usuarioRepository.save(usuario);
         suscripcionService.registrarSuscripcion(usuario, NivelPlan.BASIC);
 
-        return "redirect:/";
+        return "redirect:/login?registered=true";
+    }
+
+    @GetMapping("/")
+    public String index(Model model, java.security.Principal principal) {
+        if (principal != null) {
+            Usuario user = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+            if (user != null && user.getRol() == Rol.CLIENTE) {
+                model.addAttribute("usuarios", List.of(user));
+            } else {
+                model.addAttribute("usuarios", usuarioRepository.findAll());
+            }
+        }
+        model.addAttribute("planes", planRepository.findAll());
+        return "index";
     }
 
     @GetMapping("/billing")

@@ -1,98 +1,346 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <title>Plataforma SaaS</title>
+    <meta charset="UTF-8">
+    <title>Panel de Control SaaS</title>
     <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --sidebar-w: 260px;
+        }
+
         body {
-            font-family: sans-serif;
-            margin: 20px;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
         }
 
+        /* Sidebar Style */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .user-section {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .user-info {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        /* Main Content Style */
+        .main-content {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            padding: 2.5rem;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .breadcrumb {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Tables & Lists */
         table {
-            border-collapse: collapse;
             width: 100%;
-            margin-bottom: 20px;
+            border-collapse: collapse;
         }
 
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 10px;
+        th {
             text-align: left;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
         }
 
-        .form-group {
-            margin-bottom: 10px;
+        td {
+            padding: 1rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        /* Buttons & Badges */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            text-decoration: none;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        select,
+        input {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            outline: none;
         }
     </style>
 </head>
 
 <body>
-    <h1>Plataforma SaaS - Validación Core</h1>
-
-    <h2>Registrar Nuevo Usuario</h2>
-    <form th:action="@{/usuarios/registrar}" method="post">
-        <div class="form-group">
-            <label>Email:</label>
-            <input type="email" name="email" required>
-            <label>País:</label>
-            <select name="pais">
-                <option value="ES">España (21% IVA)</option>
-                <option value="FR">Francia (20% IVA)</option>
-                <option value="US">USA (0% Impuesto)</option>
-                <option value="XX">Otro (15% Default)</option>
-            </select>
-            <button type="submit">Registrar con Plan Basic</button>
+    <div class="sidebar">
+        <a href="/" class="logo">
+            <span>SaaS Core</span>
+        </a>
+        <nav class="nav-group">
+            <a href="/" class="nav-item active">Dashboard</a>
+            <a href="/billing" class="nav-item">Facturación</a>
+            <a href="/admin/audit" class="nav-item" sec:authorize="hasRole('ADMIN')">Auditoría</a>
+        </nav>
+        <div class="user-section">
+            <span class="user-info" th:text="${#authentication.name}">usuario@ejemplo.com</span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn" style="width: 100%">Cerrar Sesión</button>
+            </form>
         </div>
-    </form>
+    </div>
 
-    <h2>Pruebas y Debug</h2>
-    <form th:action="@{/test/renovar}" method="post">
-        <button type="submit" style="background-color: #ff9800; color: white;">Forzar Renovación Diaria (Test)</button>
-    </form>
+    <div class="main-content">
+        <header>
+            <div class="breadcrumb">Panel / Visión General</div>
+            <h1
+                th:text="${#authorization.expression('hasRole(''ADMIN'')') ? 'Panel de Administración' : 'Mi Suscripción'}">
+                Panel</h1>
+        </header>
 
-    <h2>Usuarios y Suscripciones</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Plan Actual</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="u : ${usuarios}">
-                <td th:text="${u.email}"></td>
-                <td>
-                    <span th:if="${!u.suscripciones.empty}" th:text="${u.suscripciones[0].plan.nombre}"></span>
-                </td>
-                <td>
-                    <span th:if="${!u.suscripciones.empty}" th:text="${u.suscripciones[0].estado}"></span>
-                </td>
-                <td>
-                    <div th:if="${!u.suscripciones.empty}">
-                        <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cambiar-plan'}"
-                            method="post" style="display:inline;">
-                            <select name="nuevoNivel">
-                                <option value="BASIC">Basic (10€)</option>
-                                <option value="PREMIUM">Premium (30€)</option>
-                                <option value="ENTERPRISE">Enterprise (100€)</option>
-                            </select>
-                            <button type="submit">Cambiar Plan</button>
-                        </form>
-                        <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cancelar'}" method="post"
-                            style="display:inline; margin-left:10px;">
-                            <button type="submit" style="background-color: #f44336; color: white;">Cancelar</button>
-                        </form>
-                        <br>
-                        <a th:href="@{'/suscripciones/' + ${u.suscripciones[0].id}}">Ver Facturas e Historial</a>
+        <div class="grid">
+            <!-- Admin Tool: Register -->
+            <div class="card" sec:authorize="hasRole('ADMIN')">
+                <div class="card-title">Registrar Nuevo Cliente</div>
+                <form th:action="@{/register}" method="post">
+                    <div class="form-row">
+                        <input type="email" name="email" required placeholder="email@ejemplo.com" style="flex: 1">
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <div class="form-row">
+                        <input type="password" name="password" required placeholder="Contraseña inicial"
+                            style="flex: 1">
+                        <select name="pais">
+                            <option value="ES">España</option>
+                            <option value="FR">Francia</option>
+                            <option value="US">USA</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Crear Usuario</button>
+                </form>
+            </div>
+
+            <!-- Main Table -->
+            <div class="card" style="grid-column: span 2">
+                <div class="card-title">
+                    Suscripciones Activas
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Plan</th>
+                            <th>Estado</th>
+                            <th>Siguiente Cobro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="u : ${usuarios}">
+                            <td th:text="${u.email}"></td>
+                            <td>
+                                <strong th:if="${!u.suscripciones.empty}"
+                                    th:text="${u.suscripciones[0].plan.nombre}">Basic</strong>
+                            </td>
+                            <td>
+                                <span th:if="${!u.suscripciones.empty}" class="badge"
+                                    th:classappend="${u.suscripciones[0].estado.name() == 'ACTIVA' ? 'badge-success' : 'badge-danger'}"
+                                    th:text="${u.suscripciones[0].estado}">Activa</span>
+                            </td>
+                            <td th:if="${!u.suscripciones.empty}" th:text="${u.suscripciones[0].fechaProximaFactura}">
+                                2026-03-01</td>
+                            <td>
+                                <div th:if="${!u.suscripciones.empty}" style="display: flex; gap: 0.5rem">
+                                    <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cambiar-plan'}"
+                                        method="post" style="display: flex; gap: 0.25rem">
+                                        <select name="nuevoNivel" style="padding: 0.25rem">
+                                            <option value="BASIC">Basic</option>
+                                            <option value="PREMIUM">Premium</option>
+                                            <option value="ENTERPRISE">Enterprise</option>
+                                        </select>
+                                        <button type="submit" class="btn">Actualizar</button>
+                                    </form>
+                                    <form th:action="@{'/suscripciones/' + ${u.suscripciones[0].id} + '/cancelar'}"
+                                        method="post">
+                                        <button type="submit" class="btn btn-danger">Cancelar</button>
+                                    </form>
+                                    <a th:href="@{'/suscripciones/' + ${u.suscripciones[0].id}}"
+                                        class="btn">Detalles</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Developer Tools -->
+            <div class="card" sec:authorize="hasRole('ADMIN')" style="grid-column: span 3">
+                <div class="card-title">Acciones Críticas</div>
+                <div style="display: flex; gap: 1rem">
+                    <form th:action="@{/test/renovar}" method="post">
+                        <button type="submit" class="btn btn-warning">Ejecutar Renovación Diaria (Manual)</button>
+                    </form>
+                    <p style="color: var(--text-muted); font-size: 0.875rem">
+                        Esta acción procesará todos los cobros pendientes para el día de hoy y generará las facturas
+                        correspondientes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
