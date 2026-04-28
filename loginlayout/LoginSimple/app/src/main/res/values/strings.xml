@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">LoginSimple</string>
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="username_hint">Nombre de usuario</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="no_account_link">¿No tienes cuenta? Clic aquí</string>
+    <string name="register_title">Registro</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="register_button">Registrarse</string>
+    <string name="alumnos_button">Alumnos</string>
+    <string name="profesores_button">Profesores</string>
 </resources>
