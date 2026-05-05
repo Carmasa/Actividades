@@ -1,5 +1,6 @@
 package com.example.loginsimple
 
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,6 +39,16 @@ class ListFragment : Fragment() {
         val data = loadDataFromDb(type)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, data)
         lvItems.adapter = adapter
+
+        // Solo permitimos clics si el tipo es "profesores"
+        if (type == "profesores") {
+            lvItems.setOnItemClickListener { _, _, position, _ ->
+                val profName = data[position]
+                val intent = Intent(requireContext(), TasksActivity::class.java)
+                intent.putExtra("PROF_NAME", profName)
+                startActivity(intent)
+            }
+        }
 
         return view
     }
